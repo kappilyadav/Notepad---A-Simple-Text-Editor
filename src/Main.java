@@ -1,52 +1,9 @@
-/*
-
-When interviewer asks -->
-
-Ques --> What did you learn by making this project?
-Ans  --> OOPs(Obect Oriented Programming)
-         inheritence is happening here (extends IFrame)
-         we're using contructor here in classes
-
-Whenever you are exlaining this project
---> first of all cover all the functionality
-
---> Tell them that -> 
-    It is a Simple Text Editor Application
-    It has certain functionalities like 'SAVE' option, 'OPEN', 'PRINT' and 'CUT', 'COPY', "PASTE" and 'CLOSE'
-    these options we have added
-
---> Tell them the motive behind why're you making this project
-    Tell them that so this is a introductory project to Java
-    like I was started to learn Java and that's why I made this project
-    so, that I can have some idea about File Handling and basic Java Swing Libraries
-    you can also tell you've learned Exception Handling(using try/catch block) in Java
-
---> Explain inteviewer the features 
-    Tell them that you've used OOPs here, you've used constructors, you've used inheritence also
-
-    --> We have created a Frame
-    --> We have given the title 'Notepad' to the Frame
-    --> We've added the TextArea
-    --> We created the Menu Bar
-    --> we created the Menu's - 'FILE', 'EDIT' and 'CLOSE'
-    --> And created the Menu Items like 'SAVE', 'PRINT', 'CUT' and 'COPY'
-    --> Added Action Listener to the Menu Items
-    --> Added Menu Item to the Menu and
-    --> Added Menu's to the Menu Bar
-    --> Added Menu Bar to the Frame
-    --> Added TextArea to the Frame
-    --> Then we've added all the functionalities that are 'CUT', 'COPY', 'PASTE', 'PRINT'
-    --> We've used Java Swing in-built functions for adding functionalities to 'OPEN' and 'SAVE'
- */
-
-
-
-import java.awt.*; //Java Awt Library
-import javax.swing.*; //Java Swing Library
-import java.io.*; //Used for showing in-built windows which are Open File Window, Save File Window
-import java.awt.event.*; //To implement Action Listener(Listens to mouse inputs)
-import javax.swing.plaf.metal.*; //Theme for the App
-import javax.swing.text.*; //Providing TextArea Functionality
+import java.awt.*;
+import javax.swing.*;
+import java.io.*;
+import java.awt.event.*;
+import javax.swing.plaf.metal.*;
+import javax.swing.text.*;
 
 class editor extends JFrame implements ActionListener{
 
@@ -56,13 +13,11 @@ class editor extends JFrame implements ActionListener{
 
     editor(){
 
-        //Initializes the frame with the title
+        //Initializing the frame
         f = new JFrame("Notepad");
 
 
         //setting the overall theme of app
-        //using try & catch because if it fails to get the theme file
-        //then code will not be interrupted
         try{
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
@@ -74,10 +29,10 @@ class editor extends JFrame implements ActionListener{
         }
 
 
-        //creates the text component
+        //creates the text area
         t = new JTextArea();
 
-        //creates menu
+        //creating MenuBar
         JMenuBar menu = new JMenuBar();
 
         //creates menu
@@ -89,6 +44,7 @@ class editor extends JFrame implements ActionListener{
         JMenuItem m3 = new JMenuItem("Save");
         JMenuItem m4 = new JMenuItem("Print");
 
+        //adding actionListener to menuItems
         m1.addActionListener(this);
         m2.addActionListener(this);
         m3.addActionListener(this);
@@ -119,7 +75,7 @@ class editor extends JFrame implements ActionListener{
 
 
 
-        //creates menu
+        //creates menuItem
         JMenuItem close = new JMenuItem("Close");
         close.addActionListener(this);
 
@@ -130,11 +86,11 @@ class editor extends JFrame implements ActionListener{
         menu.add(close);
 
         //setting menu to the frame
+        //adding textArea to frame
         f.setJMenuBar(menu);
-        //adding textArea
         f.add(t);
 
-        //sets JTextArea font and color.
+        //sets TextArea font
         Font font = new Font("Time New Roman", Font.PLAIN, 30);
         t.setFont(font);
         t.setForeground(Color.BLACK);
@@ -143,7 +99,7 @@ class editor extends JFrame implements ActionListener{
         //setting default frame size
         f.setSize(720, 480);
 
-        //display the Frame
+        //displays the Frame
         f.setVisible(true);
 
 
@@ -156,7 +112,7 @@ class editor extends JFrame implements ActionListener{
         //extracting the button user has pressed
         String s = e.getActionCommand();
 
-
+        //if New button pressed
         if(s.equals("New")){
             t.setText("");
         }
@@ -164,36 +120,27 @@ class editor extends JFrame implements ActionListener{
         else if(s.equals("Open")){
 
             //initializing the JFileChooser with desired directory
-            //j contains the path of the choosen file
             JFileChooser j = new JFileChooser("C:/Users/DELL/Desktop");
 
             //invoking the openDialogBox with an integer
-            //initializing the integer with state of DialogBox
-            //showOpenDialog(f) --> Here OpenDialogBox opens in centre on the frame f
-            //showOpenDialog(null) --> Here OpenDialogBox opens in centre of the screen, bcoz null is given
             int r = j.showOpenDialog(f);
 
-            //when user selected the file on fileChooser
+                 
             if(r == JFileChooser.APPROVE_OPTION){
 
-                //gets the absolute path of file like C:/Users/Desktop/file.txt
+                //getting the absolute path of file
                 File fi = new File(j.getSelectedFile().getAbsolutePath());
 
 
                 try {
-                    //string to copy data from the chosen file
                     String s1 = "", s2 = "";
 
                     //FileReader
                     FileReader fr = new FileReader(fi);
-                    
-                    //BufferedReader is used because FileReader reads file character by character
-                    //which is very slow so BufferedReader is used to read the file line by line
 
                     //Reads the file line by line
                     BufferedReader br = new BufferedReader(fr);
 
-                    //taking file text input in string s1,s2 line by line using BufferedReader
                     //storing the first line in string s2 and second line in s1
                     s2 = br.readLine();
                     s1 = br.readLine();
@@ -203,7 +150,7 @@ class editor extends JFrame implements ActionListener{
                         s1 = br.readLine();
                     }
 
-                    //Replaces the textArea text with string s2
+                    //replaces the textArea text with string s2
                     t.setText(s2);
 
                 } catch (Exception e1) {
@@ -225,25 +172,18 @@ class editor extends JFrame implements ActionListener{
                 File fi = new File(j.getSelectedFile().getAbsolutePath());
 
                 try {
-                    //FileWriter takes text from BufferedWriter and writes the file
-                    //append: false --> bcoz we don't want to append new text to old text
-                    //we just want to replace the old text with new
+                    //FileWriter writes the file
                     FileWriter fw = new FileWriter(fi, false);
-
-                    //gives text to the FileWriter
                     BufferedWriter bw = new BufferedWriter(fw);
-
-                    //takes text from TextArea character by character
                     bw.write(t.getText());
 
-                    //after writing is finished flush/clear the stream of characters
+                    //flush the stream of characters and closing the BufferedWriter
                     bw.flush();
-
-                    //after flushing close the BufferWriter
-                    //so, that next time the new BufferWriter will be created
                     bw.close();
-
+                    
+                         
                 } catch (Exception e1) {
+                    //shows message
                     JOptionPane.showMessageDialog(f, e1.getMessage());
                 }
 
@@ -252,8 +192,8 @@ class editor extends JFrame implements ActionListener{
         }
 
         else if(s.equals("Print")){
-            //try catch is used to catch the error if printer
-            //doesn't available
+            
+            //prints the file
             try {
                 t.print();
             } 
